@@ -41,11 +41,17 @@
 
         /* Camera Preview Vandiep */
         #camera-preview {
-            position: absolute; top: 15px; right: 15px;
-            width: 120px; height: 90px;
-            border: 2px solid rgba(255,0,0,0.5); 
-            transform: scaleX(-1); opacity: 0.6; border-radius: 8px;
-        }
+    position: absolute; 
+    top: 15px; 
+    right: 15px;
+    width: 240px; /* Tăng từ 120px lên 240px */
+    height: 180px; /* Tăng từ 90px lên 180px */
+    border: 2px solid rgba(255,0,0,0.8); /* Tăng độ đậm viền */
+    transform: scaleX(-1); 
+    opacity: 0.8; /* Tăng độ hiển thị (từ 0.6 lên 0.8) */
+    border-radius: 12px;
+    background: #000;
+}
         
         /* Vandiep */
         #copyright {
@@ -486,7 +492,11 @@
             hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
 
             hands.onResults(results => {
-                ctx.clearRect(0,0,100,75); ctx.drawImage(results.image, 0, 0, 100, 75);
+    // Chỉnh lại kích thước vẽ để khớp với canvas mới (thay 100, 75 bằng canvas.width, canvas.height)
+    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+    
+    // ... giữ nguyên logic xử lý tay bên dưới ...
 
                 // --- Hand Logic  ---
                 if (results.multiHandLandmarks.length === 2) {
@@ -519,7 +529,7 @@
             });
 
             const cameraUtils = new Camera(video, {
-                onFrame: async () => { await hands.send({image: video}); }, width: 800, height: 600
+                onFrame: async () => { await hands.send({image: video}); }, width: 320, height: 240
             });
             cameraUtils.start();
         }
